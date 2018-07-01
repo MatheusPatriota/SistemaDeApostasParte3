@@ -18,6 +18,7 @@ public class Cenario {
 	private int totalDeApostas;
 	protected int rateioCenario;
 	private int caixaCenario;
+	private int numeracaoCenario;
 
 	
 	/**
@@ -61,6 +62,16 @@ public class Cenario {
 				
 	}
 	
+	/**taxa
+	 * metodo responsavel por cadastrar uma aposta assegurada por taxa recebendo como parametro
+	 * apostador, valor, previsao, taxa e custo.
+	 * 
+	 * @param apostador - Nome de quem esta apostando.
+	 * @param valor - Valor da aposta a ser feita.
+	 * @param previsao - Prever se o cenario vai acontecer ou nao.
+	 * @param taxa - taxa que será recuperada do valor da aposta, caso o apostador perca.
+	 * @param custo - custo de fazer uma aposta assegurada.
+	 */
 	public void cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxa, int custo) {
 		
 		Aposta aposta = new ApostaAssegurada(apostador, valor, previsao, taxa, custo);
@@ -68,11 +79,25 @@ public class Cenario {
 		
 	}
 	
+	/**
+	 * metodo responsavel por cadastrar uma aposta assegurada por valor recebendo como parametro
+	 * apostador, valor, previsao, valor e custo.
+	 * 
+	 * @param apostador - Nome de quem esta apostando.
+	 * @param valor - Valor da aposta a ser feita.
+	 * @param previsao - Prever se o cenario vai acontecer ou nao.
+	 * @param valor - valor que será recuperada da aposta, caso o apostador perca.
+	 * @param custo - custo de fazer uma aposta assegurada.
+	 */
 	public void cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorDoResgate, int custo) {
 		
 		Aposta aposta = new ApostaAssegurada(apostador, valor, previsao, valorDoResgate, custo);
 		arrayDeApostas.add(aposta);
 		
+	}
+	
+	public int getNumeracaoCenario() {
+		return numeracaoCenario;
 	}
 	
 	public String getDescricao() {
@@ -124,15 +149,19 @@ public class Cenario {
 		this.rateioCenario += rateioCenario;
 	}
 	
+	public void setNumeracaoCenario(int numeracaoCenario) {
+		this.numeracaoCenario += numeracaoCenario;
+	}
+	
 	/**
-	 * toString para padronizar a exibicao da classe Cenario utilizando descricao e status.
+	 * toString para padronizar a exibicao da classe Cenario utilizando a numeracao do cenario, descricao e status.
 	 * 
 	 * @return - Retorna uma representacao em String da classe Cenario
 	 */
 	@Override
 	public String toString() {
 	
-		return  descricao + " - " + status;
+		return  numeracaoCenario + " - " +descricao + " - " + status;
 	}
 	
 	

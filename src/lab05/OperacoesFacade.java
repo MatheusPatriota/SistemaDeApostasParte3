@@ -7,7 +7,9 @@ public class OperacoesFacade {
 	public static void main(String[] args) {
 		
 		args = new String[] {"lab05.OperacoesFacade","acceptance_test/us1_test.txt", "acceptance_test/us2_test.txt",
-		"acceptance_test/us3_test.txt",	"acceptance_test/us4_test.txt", "acceptance_test/us5_test.txt", "acceptance_test/us6_test.txt"};
+		"acceptance_test/us3_test.txt",	"acceptance_test/us4_test.txt", "acceptance_test/us5_test.txt", "acceptance_test/us6_test.txt",
+		"acceptance_test/us7_test.txt"};
+		
 		EasyAccept.main(args);
 	}
 	
@@ -27,6 +29,12 @@ public class OperacoesFacade {
 		
 		return operacao.cadastrarCenario(descricao);
 	}
+	
+	public String exibirCenarioOrdenado(int numeracaoCenario) {
+		
+		return operacao.exibirCenarioOrdenado(numeracaoCenario);
+	}
+	
 	public int cadastrarCenario(String descricao, int bonus) {
 		
 		return operacao.cadastrarCenario(descricao, bonus);
@@ -40,6 +48,11 @@ public class OperacoesFacade {
 	public String listarCenarios() {
 		
 		return operacao.listarCenarios();
+	}
+	
+	public String alterarOrdem(String ordem) {
+		
+		return operacao.alterarOrdem(ordem);
 	}
 	
 	public void cadastrarAposta(int numeracaoCenario, String apostador, int valor, String previsao) {

@@ -13,10 +13,12 @@ public class ApostaAssegurada extends Aposta {
         tipoSeguro = new SeguroPorValor(valor, valorDoResgate);
     }
     
+    @Override
     public void alterarParaTaxa(double taxa) {
     	tipoSeguro = new SeguroPorTaxa(valor,taxa);
     }
     
+    @Override
     public void alterarParaValor(int valorDoSeguro) {
     	tipoSeguro = new SeguroPorValor(valor, valorDoSeguro);
     }

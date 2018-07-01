@@ -7,6 +7,9 @@
 package lab05;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+
 
 
 public class OperacoesController implements Comparable<OperacoesController>{
@@ -64,6 +67,7 @@ public class OperacoesController implements Comparable<OperacoesController>{
 		Cenario cenario = new Cenario(descricao);
 		cenarios.add(cenario);
 		numeracaoCenarioCadastrado ++;
+		cenario.setNumeracaoCenario(numeracaoCenarioCadastrado);
 		return numeracaoCenarioCadastrado;
 		
 	}
@@ -80,6 +84,7 @@ public class OperacoesController implements Comparable<OperacoesController>{
 		Cenario cenario = new CenarioBonus(descricao, bonus);
 		cenarios.add(cenario);
 		numeracaoCenarioCadastrado ++;
+		cenario.setNumeracaoCenario(numeracaoCenarioCadastrado);
 		this.caixa -= bonus;
 		return numeracaoCenarioCadastrado;
 	
@@ -103,7 +108,8 @@ public class OperacoesController implements Comparable<OperacoesController>{
 			throw new IllegalArgumentException("Erro na consulta de cenario: Cenario nao cadastrado");
 		}
 		
-		return numeracaoCenario + " - " + cenarios.get(numeracaoCenario-1);
+		Collections.sort(cenarios, new OrdenaPorCadastro());
+		return  cenarios.get(numeracaoCenario-1).toString();
 	}
 	
 	/**
@@ -116,23 +122,83 @@ public class OperacoesController implements Comparable<OperacoesController>{
 		String listaDeCenarios = "";
 		for (int i = 0; i < cenarios.size(); i++) {
 			
-			listaDeCenarios += i+1 + " - " + cenarios.get(i) + System.lineSeparator();
+			listaDeCenarios += cenarios.get(i).toString() + System.lineSeparator();
 		}
 		
 		return listaDeCenarios;
 	}
 	
-	public void alterarOrdem(String ordem) {
+	/**
+	 * metodo responsavel por alterar a ordem do cenario de acordo com os parametros
+	 * cadastro, nome e apostas.
+	 * 
+	 * @param ordem - String que representa qual a prioridade de ordenacao dos cenarios.
+	 * @return - retorna uma String com todos os cenarios ordenados da maneira desejada.
+	 */
+	public String alterarOrdem(String ordem) {
 		
-		if (ordem.equals("Cadastro")) {
+		String resultadoDaAlteracao = "";
+		ordem = ordem.toLowerCase();
+		
+		if (ordem.equals(" ")) {
 			
+			throw new IllegalArgumentException("Erro ao alterar ordem: Ordem nao pode ser vazia ou nula");
 		}
-		else if (ordem.equals("Nome")) {
+		
+		else if (ordem.equals("cadastro")) {
 			
+			Collections.sort(cenarios, new OrdenaPorCadastro());
+			for (int i = 0; i < cenarios.size(); i++) {
+				
+				resultadoDaAlteracao += cenarios.get(i).toString() + System.lineSeparator();
+			}
 		}
+		
+		else if (ordem.equals("nome")) {
+			
+			Collections.sort(cenarios, new OrdenaPorNome());
+			for (int i = 0; i < cenarios.size(); i++) {
+				
+				resultadoDaAlteracao += cenarios.get(i).toString() + System.lineSeparator();
+			}
+		}
+		
+		else if(ordem.equals("apostas")) {
+			
+			Collections.sort(cenarios, new OrdenaPorApostas());
+			for (int i = 0; i < cenarios.size(); i++) {
+				
+				resultadoDaAlteracao += cenarios.get(i).toString() + System.lineSeparator();
+			}
+		}
+		
 		else {
 			
+			throw new IllegalArgumentException("Erro ao alterar ordem: Ordem invalida");
 		}
+		
+		return resultadoDaAlteracao;
+	}
+	
+	/**
+	 * metodo responsavel por exibir o cenario ordenado a partir de sua posicao.
+	 * 
+	 * @param numeracaoCenario - posicao do cenario a ser exibido.
+	 * @return - retorna uma String que representa o cenario ordenado.
+	 */
+	public String exibirCenarioOrdenado(int numeracaoCenario) {
+		
+		if (numeracaoCenario <= 0) {
+			
+			throw new IllegalArgumentException("Erro na consulta de cenario ordenado: Cenario invalido");
+		}
+		
+		if (numeracaoCenario > cenarios.size()) {
+			
+			throw new IllegalArgumentException("Erro na consulta de cenario ordenado: Cenario nao cadastrado");
+		}
+		
+		return cenarios.get(numeracaoCenario-1).toString();
 	}
 	/**
 	 * metodo responsavel por cadastrar uma nova aposta em um cenario especifico, passando como parametro
@@ -305,7 +371,7 @@ public class OperacoesController implements Comparable<OperacoesController>{
 	 */
 	public void alterarSeguroValor(int numeracaoCenario, int apostaAssegurada, int valorDoSeguro) {
 		
-		((ApostaAssegurada)cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(apostaAssegurada-1)).alterarParaValor(valorDoSeguro);;
+		cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(apostaAssegurada-1).alterarParaValor(valorDoSeguro);
 		
 	}
 	/**
@@ -317,7 +383,7 @@ public class OperacoesController implements Comparable<OperacoesController>{
 	 */
 	public void alterarSeguroTaxa(int numeracaoCenario, int apostaAssegurada, double taxa ) {
 		
-		((ApostaAssegurada)cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(apostaAssegurada-1)).alterarParaTaxa(taxa);
+		cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(apostaAssegurada-1).alterarParaTaxa(taxa);
           
 	}
 	
@@ -407,31 +473,14 @@ public class OperacoesController implements Comparable<OperacoesController>{
 			throw new IllegalArgumentException("Erro ao fechar aposta: Cenario ja esta fechado");
 		}
 		
-		/**
+		
 		if (ocorreu  == true) {
 			
 			for (int i = 0; i <cenarios.get(numeracaoCenario-1).getArrayDeApostas().size(); i++) {
 				
 				if (cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i).getPrevisao().equals("N VAI ACONTECER")) {
 					
-					if (cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i).getAssegurado() == true) {
-						
-						if (((ApostaAssegurada)cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i)).getSeguro() == 1) {
-							
-							caixa += cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i).getValor() * taxa;
-							caixa -= ((SeguroPorValor)cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i)).getValorDoResgate();	
-						}
-						else if (((SeguroPorTaxa)cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i)).getAsseguradoPorTaxa() == true) {
-							
-							caixa += cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i).getValor() * taxa;
-							caixa -= (((SeguroPorTaxa)cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i)).getTaxa() / 100) * (cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i).getValor());	
-						}
-					}
-					else {
-						cenarios.get(numeracaoCenario-1).setCaixaCenario(cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i).getValor());
-						
-					}
-					
+					cenarios.get(numeracaoCenario-1).setCaixaCenario(cenarios.get(numeracaoCenario-1).getArrayDeApostas().get(i).getValor());
 				}
 			}
 			
@@ -453,14 +502,12 @@ public class OperacoesController implements Comparable<OperacoesController>{
 			
 			caixa += (cenarios.get(numeracaoCenario-1).getCaixaCenario() * taxa);
 			cenarios.get(numeracaoCenario-1).setRateioCenario((int) (cenarios.get(numeracaoCenario-1).getCaixaCenario() - cenarios.get(numeracaoCenario-1).getCaixaCenario() * taxa));
-			cenarios.get(numeracaoCenario-1).setStatus("Finalizado (não ocorreu)");
+			cenarios.get(numeracaoCenario-1).setStatus("Finalizado (n ocorreu)");
 		}
 	
 		
 	}
 	
-	**/
-	}
 	public int getCaixaCenario(int numeracaoCenario) {
 		
 		if (numeracaoCenario <= 0) {

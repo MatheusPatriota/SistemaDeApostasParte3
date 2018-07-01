@@ -1,6 +1,7 @@
 package lab05;
 
 public class ApostaSemSeguro extends Aposta {
+	
     public ApostaSemSeguro(String apostador, int valor, String previsao) {
         
         super(apostador, valor, previsao);

@@ -40,6 +40,14 @@ public abstract class Aposta {
 		return 0;
 	}
 	
+	public void alterarParaValor(int valorDoSeguro) {
+
+	}
+	
+	public void alterarParaTaxa(double taxa) {
+	    	
+	}
+	
 	/**
 	 * toString para padronizar a exibicao da classe Apostas, usando apostador, valor e previsao.
 	 * 

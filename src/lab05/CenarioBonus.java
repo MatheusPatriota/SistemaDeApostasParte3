@@ -3,7 +3,7 @@ package lab05;
 
 public class CenarioBonus extends Cenario {
 	
-	private int bonus;
+	private double bonus;
 	/**
 	 * Construtor de Cenario bonus responsavel por iniciar a classe e seus atributos.
 	 * 
@@ -27,10 +27,16 @@ public class CenarioBonus extends Cenario {
 	 * 
 	 * @return - retorna uma string que representa CenarioBonus
 	 */
+	
 	@Override
 	public String toString() {
 		
-		return super.toString() + " - R$ " + bonus/100 + ",00";
+		if (bonus < 100) {
+			
+			return super.toString() + " - R$ 0," + (int)(bonus);
+		}
+		
+		return super.toString() + " - R$ " + (int)(bonus/100) + ",00";
 	}
 	
 }
