@@ -301,7 +301,7 @@ public class OperacoesController implements Comparable<OperacoesController>{
 	 * @param apostador - Nome do apostador.
 	 * @param valor - Valor a ser apostado.
 	 * @param previsao - Previsao se o cenario ira acontecer ou nao.
-	 * @param valor - Valor a ser restituido ao apostador caso ele perca a aposta.
+	 * @param valorDoResgate - Valor a ser restituido ao apostador caso ele perca a aposta.
 	 * @param custo - custo para fazer uma aposta assegurada.
 	 */
 	public void cadastrarApostaSeguraValor(int numeracaoCenario, String apostador, int valor, String previsao, int valorDoResgate, int custo) {

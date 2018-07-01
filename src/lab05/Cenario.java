@@ -86,7 +86,7 @@ public class Cenario {
 	 * @param apostador - Nome de quem esta apostando.
 	 * @param valor - Valor da aposta a ser feita.
 	 * @param previsao - Prever se o cenario vai acontecer ou nao.
-	 * @param valor - valor que será recuperada da aposta, caso o apostador perca.
+	 * @param valorDoResgate - valor que será recuperada da aposta, caso o apostador perca.
 	 * @param custo - custo de fazer uma aposta assegurada.
 	 */
 	public void cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorDoResgate, int custo) {
