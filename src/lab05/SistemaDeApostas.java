@@ -16,7 +16,7 @@ public class SistemaDeApostas {
 		operacao.cadastrarCenario("As provas nao vao ser corrigidas ate sexta"); 
 		operacao.cadastrarCenario("Este cenario tem seguro");
 		operacao.cadastrarCenario("Este cenario tambem tem seguro");
-		operacao.cadastrarCenario("As provas nao vao ser corrigidas ate sexta");
+		operacao.cadastrarCenario("Este cenario tem seguro");
 		
 		System.out.println(operacao.exibirCenario(1));
 		System.out.println();
@@ -27,7 +27,7 @@ public class SistemaDeApostas {
 		/**
 		 * Operacoes relacionadas a Aposta
 		 */
-		
+		/**
 		System.out.println(operacao.getCaixa());
 		operacao.cadastrarAposta(1, "Matheus Patriota", 101, "N VAI ACONTECER");
 		operacao.cadastrarAposta(1, "Homer simpson", 201, "VAI ACONTECER");
@@ -52,9 +52,20 @@ public class SistemaDeApostas {
 		System.out.println(operacao.getCaixaCenario(1));
 		System.out.println(operacao.getTotalRateioCenario(1));
 		System.out.println(operacao.getCaixa());
+		**/
+		operacao.cadastrarAposta(6, "a", 101, "N VAI ACONTECER");
+		operacao.cadastrarAposta(6, "b", 201, "VAI ACONTECER");
+		operacao.cadastrarAposta(6, "c", 301, "N VAI ACONTECER");
+		operacao.cadastrarAposta(6, "d", 401, "VAI ACONTECER");
+		operacao.cadastrarApostaSeguraValor(6, "ESSE E O DIABO 1", 501, "VAI ACONTECER",200,50);
+		operacao.cadastrarApostaSeguraTaxa(6, "ESSE E O DIABO 2", 501, "VAI ACONTECER",0.2,40);
+		operacao.alterarSeguroTaxa(6, 5, 0.2);
+		operacao.alterarSeguroValor(6, 6, 100);
+		operacao.fecharAposta(6, false);
+		System.out.println(operacao.getCaixaCenario(6));
+		System.out.println(operacao.getTotalRateioCenario(6));
+		System.out.println(operacao.getCaixa());
 		
-		
-			
 		
 	}
 

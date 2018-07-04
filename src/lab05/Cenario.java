@@ -57,7 +57,7 @@ public class Cenario {
 	 */
 	public void cadastrarApostas(String apostador, int valor, String previsao) {
 		
-		Aposta aposta = new ApostaSemSeguro(apostador, valor, previsao);
+		Aposta aposta = new Aposta(apostador, valor, previsao);
 		arrayDeApostas.add(aposta);
 				
 	}
@@ -74,7 +74,7 @@ public class Cenario {
 	 */
 	public void cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxa, int custo) {
 		
-		Aposta aposta = new ApostaAssegurada(apostador, valor, previsao, taxa, custo);
+		Aposta aposta = new Aposta(apostador, valor, previsao, taxa, custo);
 		arrayDeApostas.add(aposta);
 		
 	}
@@ -91,7 +91,7 @@ public class Cenario {
 	 */
 	public void cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorDoResgate, int custo) {
 		
-		Aposta aposta = new ApostaAssegurada(apostador, valor, previsao, valorDoResgate, custo);
+		Aposta aposta = new Aposta(apostador, valor, previsao, valorDoResgate, custo);
 		arrayDeApostas.add(aposta);
 		
 	}

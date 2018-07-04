@@ -7,11 +7,13 @@
 package lab05;
 
 
-public abstract class Aposta {
+public class Aposta {
 	
-	protected String apostador;
-	protected int valor;
-	protected String previsao;
+	private String apostador;
+	private int valor;
+	private String previsao;
+	private Seguro tipoSeguro;
+	private int custo;
 	
 	/**
 	 * Construtor de Apostas responsavel por inicializar sua classe e atributos.
@@ -21,13 +23,73 @@ public abstract class Aposta {
 	 * @param previsao - Prever se o cenario vai acontecer ou não
 	 */
 	public Aposta(String apostador, int valor, String previsao) {
-				
+		
+		if (apostador.equals(null) || apostador.equals("")) {
+	            
+            throw new IllegalArgumentException("Erro no cadastro de aposta: Apostador nao pode ser vazio ou nulo");
+        }
+        
+        if (valor <= 0) {
+            
+            throw new IllegalArgumentException("Erro no cadastro de aposta: Valor nao pode ser menor ou igual a zero");
+        }
+        
+        if (apostador.equals("  ")) {
+            
+            throw new IllegalArgumentException("Erro no cadastro de aposta: Apostador nao pode ser vazio ou nulo");
+        }
+        
+        if (previsao.equals("   ")) {
+            
+            throw new IllegalArgumentException("Erro no cadastro de aposta: Previsao nao pode ser vazia ou nula");
+        }
+        
+        if (previsao.equals("") || previsao.equals(null)) {
+            
+            throw new IllegalArgumentException("Erro no cadastro de aposta: Previsao nao pode ser vazia ou nula");
+        }
+        
+        if (!(previsao.equals("VAI ACONTECER") || previsao.equals("N VAI ACONTECER"))) {
+            
+            throw new IllegalArgumentException("Erro no cadastro de aposta: Previsao invalida");
+        }
+	    
+	
 		this.valor = valor;
 		this.apostador = apostador;
 		this.previsao = previsao;
+		this.tipoSeguro = new SemSeguro(apostador, valor, previsao);
+		this.custo = 0;
 		
 	}
 	
+	public Aposta(String apostador, int valor, String previsao, int valorDoSeguro, int custo) {
+		
+		this.valor = valor;
+		this.apostador = apostador;
+		this.previsao = previsao;
+		this.tipoSeguro = new SeguroPorValor(apostador, valor, previsao, valorDoSeguro);
+		this.custo = custo;
+	}
+	
+	public Aposta(String apostador, int valor, String previsao, double taxa, int custo) {
+		
+		this.valor = valor;
+		this.apostador = apostador;
+		this.previsao = previsao;
+		this.tipoSeguro = new SeguroPorTaxa(apostador, valor, previsao, taxa);
+		this.custo = custo;
+	}
+	
+	public void alterarParaTaxa(double taxa) {
+    	this.tipoSeguro = new SeguroPorTaxa(apostador, valor, previsao, taxa);
+    }
+    
+
+    public void alterarParaValor(int valorDoSeguro) {
+    	this.tipoSeguro = new SeguroPorValor(apostador, valorDoSeguro, previsao, valorDoSeguro);
+    }
+    
 	public String getPrevisao() {
 		return previsao;
 	}
@@ -36,16 +98,12 @@ public abstract class Aposta {
 		return valor;
 	}
 	
-	public int getSeguro() {
-		return 0;
+	public Seguro getSeguro() {
+		return tipoSeguro;
 	}
 	
-	public void alterarParaValor(int valorDoSeguro) {
-
-	}
-	
-	public void alterarParaTaxa(double taxa) {
-	    	
+	public int getCusto() {
+		return custo;
 	}
 	
 	/**
@@ -56,6 +114,6 @@ public abstract class Aposta {
 	@Override
 	public String toString() {
 		
-		return apostador + " - R$" + valor + " - " + previsao;
+		return tipoSeguro.toString();
 	}
 }
